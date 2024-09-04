@@ -1,50 +1,26 @@
-## Create a course selling website
+# Course Selling App (Backend Only)
 
-### Description
-You need to implement a course selling app. Make sure you setup your own mongodb instance before starting. 
-It needs to support two types of users - 
-1. Admins
-2. Users
+## Introduction
 
-Admins are allowed to sign up, create courses.
-Users are allowed to sign up, view courses, purchase courses.
-This in the real world would translate to an app like udemy.
+The Course Selling App is a backend application designed to manage a platform for selling courses, similar to platforms like Udemy. This application allows Admins to create and manage courses, while Users can browse, purchase, and view the courses they've bought. This backend-only application uses MongoDB for data persistence and is built with Node.js and Express.
 
-This one doesn't use authentication the right way. We will learn how to do that in the next assignment. 
-For this one, in every authenticated requests, you need to send the username and password in the headers (and not the jwt).
-This is the reason why this assignment doesn't have a sign in route.
+## Techniques Used
 
-You need to use mongodb to store all the data persistently.
+- **Node.js**: A JavaScript runtime built on Chrome's V8 engine, enabling server-side scripting and handling asynchronous operations efficiently.
+- **Express.js**: A minimal and flexible Node.js web application framework that provides robust features for building web and mobile applications, including routing and middleware.
+- **MongoDB**: A NoSQL database that stores data in a flexible, JSON-like format, allowing for scalable and efficient data management.
+- **Middleware**: Used for handling request and response cycles, including authentication checks by sending credentials in request headers.
 
-## Routes
-### Admin Routes:
-- POST /admin/signup
-  Description: Creates a new admin account.
-  Input Body: { username: 'admin', password: 'pass' }
-  Output: { message: 'Admin created successfully' }
-- POST /admin/courses
-  Description: Creates a new course.
-  Input: Headers: { 'username': 'username', 'password': 'password' }, Body: { title: 'course title', description: 'course description', price: 100, imageLink: 'https://linktoimage.com' }
-  Output: { message: 'Course created successfully', courseId: "new course id" }
-- GET /admin/courses
-  Description: Returns all the courses.
-  Input: Headers: { 'username': 'username', 'password': 'password' }
-  Output: { courses: [ { id: 1, title: 'course title', description: 'course description', price: 100, imageLink: 'https://linktoimage.com', published: true }, ... ] }
+This project focuses on creating a secure and scalable backend system that handles various user roles and manages course data effectively.
+## Features
 
-### User routes
-- POST /users/signup
-  Description: Creates a new user account.
-  Input: { username: 'user', password: 'pass' }
-  Output: { message: 'User created successfully' }
-- GET /users/courses
-  Description: Lists all the courses.
-  Input: Headers: { 'username': 'username', 'password': 'password' }
-  Output: { courses: [ { id: 1, title: 'course title', description: 'course description', price: 100, imageLink: 'https://linktoimage.com', published: true }, ... ] }
-- POST /users/courses/:courseId
-  Description: Purchases a course. courseId in the URL path should be replaced with the ID of the course to be purchased.
-  Input: Headers: { 'username': 'username', 'password': 'password' }
-  Output: { message: 'Course purchased successfully' }
-- GET /users/purchasedCourses
-  Description: Lists all the courses purchased by the user.
-  Input: Headers: { 'username': 'username', 'password': 'password' }
-  Output: { purchasedCourses: [ { id: 1, title: 'course title', description: 'course description', price: 100, imageLink: 'https://linktoimage.com', published: true }, ... ] }
+### Admin
+- **Sign Up**: Admins can create an account to manage courses.
+- **Create Courses**: Admins can create new courses with a title, description, price, and image link.
+- **View All Courses**: Admins can view a list of all created courses.
+
+### User
+- **Sign Up**: Users can create an account to browse and purchase courses.
+- **View Courses**: Users can view all available courses.
+- **Purchase Courses**: Users can purchase courses by specifying the course ID.
+- **View Purchased Courses**: Users can view a list of all the courses they have purchased.
