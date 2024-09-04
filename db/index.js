@@ -1,8 +1,9 @@
 const mongoose = require("mongoose");
-const { url } = require("./private");
-
+require("dotenv").config();
 //connect to MongoDB
-mongoose.connect(url);
+console.log(process.env.DBHOST);
+
+mongoose.connect(process.env.DBHOST);
 
 //Define schema
 const AdminSchema = new mongoose.Schema({

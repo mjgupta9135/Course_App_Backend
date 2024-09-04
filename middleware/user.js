@@ -1,6 +1,4 @@
 const { User } = require("../db");
-const Router = require("express");
-const router = Router();
 
 async function userMiddleware(req, res, next) {
   const { username, password } = req.headers;

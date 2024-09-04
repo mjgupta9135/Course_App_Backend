@@ -1,5 +1,4 @@
 const express = require("express");
-const punycode = require("punycode/");
 
 const app = express();
 const adminRouter = require("./routes/admin");
