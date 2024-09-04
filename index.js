@@ -8,7 +8,11 @@ const userRouter = require("./routes/user");
 app.use(express.json());
 app.use("/admin", adminRouter);
 app.use("/user", userRouter);
-
+app.get("/", (req, res) => {
+  res.json({
+    msg: "Api is running",
+  });
+});
 const PORT = 3000;
 
 app.listen(PORT, () => {
