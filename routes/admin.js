@@ -39,6 +39,7 @@ router.post("/courses", adminMiddleware, async (req, res) => {
     title,
     description,
     price,
+    imageLink,
   });
   res.json({
     msg: "Course Created Successfully",
