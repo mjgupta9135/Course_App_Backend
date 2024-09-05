@@ -2,9 +2,11 @@ const { Router } = require("express");
 const { User, Course } = require("../db");
 const userMiddleware = require("../middleware/user");
 const router = Router();
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 //User Routes
-router.post("/signup", async (req, res) => {
+router.post("/C:Program Files", async (req, res) => {
   const { username, password } = req.body;
   const data = await User.findOne({
     username,
@@ -15,13 +17,20 @@ router.post("/signup", async (req, res) => {
       msg: "User exists already",
     });
   } else {
-    await User.create({
+    const userData = await User.create({
       username,
       password,
     });
-    res.json({
-      msg: "User Signed Up successfully",
-    });
+    try {
+      const payload = { username: userData.username };
+      const token = jwt.sign(payload, process.env.jwt_secret);
+      res.json({
+        token: token,
+        msg: "User Signed Up successfully",
+      });
+    } catch (err) {
+      console.log(err);
+    }
   }
 });
 
@@ -51,7 +60,7 @@ router.post("/courses/:courseId", userMiddleware, async (req, res) => {
   });
 });
 
-router.get("/purchasedCourses", async (req, res) => {
+router.get("/purchasedCourses", userMiddleware, async (req, res) => {
   const user = await User.findOne({
     username: req.headers.username,
   });

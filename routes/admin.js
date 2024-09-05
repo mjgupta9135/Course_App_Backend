@@ -2,7 +2,8 @@ const { Router } = require("express");
 const adminMiddleware = require("../middleware/admin");
 const router = Router();
 const { Admin, Course } = require("../db");
-
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 //Admin routes
 router.post("/signup", async (req, res) => {
   const { username, password } = req.body;
@@ -12,16 +13,23 @@ router.post("/signup", async (req, res) => {
   });
   if (data) {
     res.status(400).json({
-      msg: "Admin exists already",
+      msg: "User exists already",
     });
   } else {
-    await Admin.create({
+    const userData = await Admin.create({
       username,
       password,
     });
-    res.json({
-      msg: "Admin created successfully",
-    });
+    try {
+      const payload = { username: userData.username };
+      const token = jwt.sign(payload, process.env.jwt_secret);
+      res.json({
+        token: token,
+        msg: "User Signed Up successfully",
+      });
+    } catch (err) {
+      console.log(err);
+    }
   }
 });
 
@@ -31,7 +39,6 @@ router.post("/courses", adminMiddleware, async (req, res) => {
     title,
     description,
     price,
-    imageLink,
   });
   res.json({
     msg: "Course Created Successfully",

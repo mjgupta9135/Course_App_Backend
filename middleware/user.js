@@ -1,16 +1,15 @@
-const { User } = require("../db");
-
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 async function userMiddleware(req, res, next) {
-  const { username, password } = req.headers;
-  const data = await User.findOne({
-    username,
-    password,
-  });
-  if (data) {
+  const data = req.headers.authorization;
+  const word = data.split(" ");
+  const token = word[1];
+  const verifiedData = jwt.verify(token, process.env.jwt_secret);
+  if (verifiedData.username) {
     next();
   } else {
     res.status(403).json({
-      msg: "User doesn't exist",
+      msg: "You are not authenticated",
     });
   }
 }
