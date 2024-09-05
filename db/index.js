@@ -23,7 +23,7 @@ const UserSchema = new mongoose.Schema({
 const CourseSchema = new mongoose.Schema({
   title: String,
   description: String,
-  price: String,
+  price: Number,
   imageLink: String,
 });
 
